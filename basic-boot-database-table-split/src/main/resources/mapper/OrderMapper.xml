@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lxtyp.basic.order.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.lxtyp.basic.order.entity.Order">
+    <id column="ORDER_ID" jdbcType="VARCHAR" property="orderId" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="ORDER_PRICE" jdbcType="DECIMAL" property="orderPrice" />
+    <result column="PAY_TYPE" jdbcType="CHAR" property="payType" />
+    <result column="ORDER_ADDRESS" jdbcType="VARCHAR" property="orderAddress" />
+    <result column="ORDER_DISCOUNT" jdbcType="DECIMAL" property="orderDiscount" />
+    <result column="ORDER_PAY" jdbcType="DECIMAL" property="orderPay" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from TF_B_ORDER
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteAll" parameterType="java.lang.String">
+    delete from TF_B_ORDER
+  </delete>
+  <insert id="insert">
+    insert into TF_B_ORDER (ORDER_ID, USER_ID, STATUS,
+    ORDER_PRICE, PAY_TYPE, ORDER_ADDRESS,
+    ORDER_DISCOUNT, ORDER_PAY, CREATE_TIME,
+    UPDATE_TIME)
+    values
+    <foreach collection="list" item="order" separator=",">
+    (#{order.orderId,jdbcType=VARCHAR}, #{order.userId,jdbcType=VARCHAR}, #{order.status,jdbcType=CHAR},
+      #{order.orderPrice,jdbcType=DECIMAL}, #{order.payType,jdbcType=CHAR}, #{order.orderAddress,jdbcType=VARCHAR},
+      #{order.orderDiscount,jdbcType=DECIMAL}, #{order.orderPay,jdbcType=DECIMAL}, #{order.createTime,jdbcType=TIMESTAMP},
+      #{order.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertSingle">
+    insert into TF_B_ORDER (ORDER_ID, USER_ID, STATUS,
+    ORDER_PRICE, PAY_TYPE, ORDER_ADDRESS,
+    ORDER_DISCOUNT, ORDER_PAY, CREATE_TIME,
+    UPDATE_TIME)
+    values
+      (#{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{status,jdbcType=CHAR},
+      #{orderPrice,jdbcType=DECIMAL}, #{payType,jdbcType=CHAR}, #{orderAddress,jdbcType=VARCHAR},
+      #{orderDiscount,jdbcType=DECIMAL}, #{orderPay,jdbcType=DECIMAL}, NOW(),
+      NOW())
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lxtyp.basic.order.entity.Order">
+    update TF_B_ORDER
+    set USER_ID = #{USER_ID,jdbcType=VARCHAR},
+      STATUS = #{STATUS,jdbcType=CHAR},
+      ORDER_PRICE = #{ORDER_PRICE,jdbcType=DECIMAL},
+      PAY_TYPE = #{PAY_TYPE,jdbcType=CHAR},
+      ORDER_ADDRESS = #{ORDER_ADDRESS,jdbcType=VARCHAR},
+      ORDER_DISCOUNT = #{ORDER_DISCOUNT,jdbcType=DECIMAL},
+      ORDER_PAY = #{ORDER_PAY,jdbcType=DECIMAL},
+      CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP}
+    where ORDER_ID = #{ORDER_ID,jdbcType=VARCHAR}
+  </update>
+  <update id="updateAddressByPrimaryKey" parameterType="com.lxtyp.basic.order.entity.Order">
+    update TF_B_ORDER
+    set
+      ORDER_ADDRESS = #{orderAddress,jdbcType=VARCHAR},
+      UPDATE_TIME = NOW()
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateAll" parameterType="com.lxtyp.basic.order.entity.Order">
+    update TF_B_ORDER
+    set
+        ORDER_ADDRESS = #{orderAddress,jdbcType=VARCHAR},
+        UPDATE_TIME = NOW()
+  </update>
+  <update id="updateUserIdByOrder" parameterType="com.lxtyp.basic.order.entity.Order">
+    update TF_B_ORDER
+    set USER_ID = #{USER_ID,jdbcType=VARCHAR},
+        UPDATE_TIME = SYSDATE()
+    where ORDER_ID = #{ORDER_ID,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select ORDER_ID, USER_ID, STATUS, ORDER_PRICE, PAY_TYPE, ORDER_ADDRESS, ORDER_DISCOUNT,
+    ORDER_PAY, CREATE_TIME, UPDATE_TIME
+    from TF_B_ORDER
+    where ORDER_ID = #{ORDER_ID,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select ORDER_ID, USER_ID, STATUS, ORDER_PRICE, PAY_TYPE, ORDER_ADDRESS, ORDER_DISCOUNT,
+    ORDER_PAY, CREATE_TIME, UPDATE_TIME
+    from TF_B_ORDER
+  </select>
+</mapper>
