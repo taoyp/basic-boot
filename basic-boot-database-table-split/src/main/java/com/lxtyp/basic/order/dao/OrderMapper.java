@@ -6,25 +6,21 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface OrderMapper {
-    int deleteByPrimaryKey(String ORDER_ID);
+    int deleteByPrimaryKey(long ORDER_ID);
 
     int insert(List<Order> list);
 
     int insertSingle(Order order);
 
-    int updateUserIdByOrder(Order order);
+    int updateAddressByUserId(Order order);
 
     int updateAll(Order order);
 
     int deleteAll();
 
-    Order selectByPrimaryKey(String ORDER_ID);
-
-    Order selectByInfo();
+    Order selectByPrimaryKey(long ORDER_ID);
 
     List<Order> selectAll();
 
-    int updateByPrimaryKey(Order record);
-
-    int updateAddressByPrimaryKey(Order record);
+    int updateAddressByPrimaryKey(Order order);
 }

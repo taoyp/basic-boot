@@ -39,9 +39,8 @@ public class OrderController {
   }
 
   @RequestMapping(value = "/one")
-  public ResponseEntity<String> orderOne(String orderId) {
-    orderService.getOrderInfo(orderId);
-    return ResponseEntity.ok("OK");
+  public ResponseEntity<Order> orderOne(int orderId) {
+    return ResponseEntity.ok(orderService.getOrderInfo(orderId));
   }
 
   @RequestMapping(value = "/list")
@@ -50,14 +49,21 @@ public class OrderController {
   }
 
   @RequestMapping(value = "/update")
-  public ResponseEntity<String> updateAddress(Order order) {
+  public ResponseEntity<String> updateAddress(@RequestBody Order order) {
     int i = orderService.updateAddress(order);
     String retInfo = i > 0 ? "OK" : "fail";
     return ResponseEntity.ok(retInfo);
   }
 
+  @RequestMapping(value = "/update/user")
+  public ResponseEntity<String> updateAddressByUser(@RequestBody Order order) {
+    int i = orderService.updateAddressByUser(order);
+    String retInfo = i > 0 ? "OK" : "fail";
+    return ResponseEntity.ok(retInfo);
+  }
+
   @RequestMapping(value = "/delete")
-  public ResponseEntity<String> deleteOrder(String orderId) {
+  public ResponseEntity<String> deleteOrder(long orderId) {
     int i = orderService.deleteOrder(orderId);
     String retInfo = i > 0 ? "OK" : "fail";
     return ResponseEntity.ok(retInfo);

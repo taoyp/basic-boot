@@ -46,7 +46,7 @@ public class OrderService {
     orderMapper.insertSingle(order);
   }
 
-  public Order getOrderInfo(String orderId) {
+  public Order getOrderInfo(long orderId) {
     return orderMapper.selectByPrimaryKey(orderId);
   }
 
@@ -58,11 +58,15 @@ public class OrderService {
     return orderMapper.updateAddressByPrimaryKey(order);
   }
 
+  public int updateAddressByUser(Order order) {
+    return orderMapper.updateAddressByUserId(order);
+  }
+
   public int updateAll(Order order) {
     return orderMapper.updateAll(order);
   }
 
-  public int deleteOrder(String orderId) {
+  public int deleteOrder(long orderId) {
     return orderMapper.deleteByPrimaryKey(orderId);
   }
 

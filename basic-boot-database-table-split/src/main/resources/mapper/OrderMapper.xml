@@ -13,9 +13,9 @@
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="long">
     delete from TF_B_ORDER
-    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=BIGINT}
   </delete>
   <delete id="deleteAll" parameterType="java.lang.String">
     delete from TF_B_ORDER
@@ -44,43 +44,31 @@
       #{orderDiscount,jdbcType=DECIMAL}, #{orderPay,jdbcType=DECIMAL}, NOW(),
       NOW())
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.lxtyp.basic.order.entity.Order">
-    update TF_B_ORDER
-    set USER_ID = #{USER_ID,jdbcType=VARCHAR},
-      STATUS = #{STATUS,jdbcType=CHAR},
-      ORDER_PRICE = #{ORDER_PRICE,jdbcType=DECIMAL},
-      PAY_TYPE = #{PAY_TYPE,jdbcType=CHAR},
-      ORDER_ADDRESS = #{ORDER_ADDRESS,jdbcType=VARCHAR},
-      ORDER_DISCOUNT = #{ORDER_DISCOUNT,jdbcType=DECIMAL},
-      ORDER_PAY = #{ORDER_PAY,jdbcType=DECIMAL},
-      CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
-      UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP}
-    where ORDER_ID = #{ORDER_ID,jdbcType=VARCHAR}
-  </update>
-  <update id="updateAddressByPrimaryKey" parameterType="com.lxtyp.basic.order.entity.Order">
+  <update id="updateAddressByPrimaryKey">
     update TF_B_ORDER
     set
       ORDER_ADDRESS = #{orderAddress,jdbcType=VARCHAR},
       UPDATE_TIME = NOW()
-    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=BIGINT}
   </update>
-  <update id="updateAll" parameterType="com.lxtyp.basic.order.entity.Order">
+  <update id="updateAddressByUserId">
+    update TF_B_ORDER
+    set
+      ORDER_ADDRESS = #{orderAddress,jdbcType=VARCHAR},
+      UPDATE_TIME = NOW()
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateAll" >
     update TF_B_ORDER
     set
         ORDER_ADDRESS = #{orderAddress,jdbcType=VARCHAR},
         UPDATE_TIME = NOW()
   </update>
-  <update id="updateUserIdByOrder" parameterType="com.lxtyp.basic.order.entity.Order">
-    update TF_B_ORDER
-    set USER_ID = #{USER_ID,jdbcType=VARCHAR},
-        UPDATE_TIME = SYSDATE()
-    where ORDER_ID = #{ORDER_ID,jdbcType=VARCHAR}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="long" resultMap="BaseResultMap">
     select ORDER_ID, USER_ID, STATUS, ORDER_PRICE, PAY_TYPE, ORDER_ADDRESS, ORDER_DISCOUNT,
     ORDER_PAY, CREATE_TIME, UPDATE_TIME
     from TF_B_ORDER
-    where ORDER_ID = #{ORDER_ID,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=BIGINT}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select ORDER_ID, USER_ID, STATUS, ORDER_PRICE, PAY_TYPE, ORDER_ADDRESS, ORDER_DISCOUNT,
